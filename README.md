@@ -1,1 +1,1 @@
-# hibernate-cinema
+# hibernate-cinema [![Build Status](https://travis-ci.com/vztot/hibernate-cinema.svg?branch=master)](https://travis-ci.com/vztot/hibernate-cinema)
