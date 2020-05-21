@@ -25,7 +25,7 @@ public class MovieDaoImpl implements MovieDao {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new DataProcessingException(e);
+            throw new DataProcessingException("Can't insert Movie entity: ", e);
         }
     }
 
@@ -37,7 +37,7 @@ public class MovieDaoImpl implements MovieDao {
             criteriaQuery.from(Movie.class);
             return session.createQuery(criteriaQuery).getResultList();
         } catch (Exception e) {
-            throw new DataProcessingException(e);
+            throw new DataProcessingException("Can't get all movies", e);
         }
     }
 }
