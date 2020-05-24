@@ -12,5 +12,7 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">create-drop</property>
         <mapping class="com.vztot.cinema.model.Movie"/>
+        <mapping class="com.vztot.cinema.model.CinemaHall"/>
+        <mapping class="com.vztot.cinema.model.MovieSession"/>
     </session-factory>
 </hibernate-configuration>
