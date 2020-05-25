@@ -79,11 +79,7 @@ public class Main {
         movieSessionService.findAvailableSessions(movieRashomon.getId(), today)
                 .forEach(System.out::println);
 
-        User user = new User();
-        user.setName("Bill Gates");
-        user.setEmail("bill@microsoft.com");
-        user.setPassword("apple_sucks");
-        userService.create(user);
+        authenticationService.register("bill@microsoft.com", "apple_sucks");
         User loggedUser = authenticationService.login("bill@microsoft.com", "apple_sucks");
         System.out.println(loggedUser);
     }

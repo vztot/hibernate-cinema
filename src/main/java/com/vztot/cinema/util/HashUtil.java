@@ -5,6 +5,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 public class HashUtil {
+    public static final String SHA_256 = "SHA-256";
 
     public static byte[] getSalt() {
         SecureRandom random = new SecureRandom();
@@ -16,7 +17,7 @@ public class HashUtil {
     public static String hashPassword(String password, byte[] salt) {
         StringBuilder sb = new StringBuilder();
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            MessageDigest messageDigest = MessageDigest.getInstance(SHA_256);
             messageDigest.update(salt);
             byte[] digest = messageDigest.digest(password.getBytes());
             for (byte b : digest) {
