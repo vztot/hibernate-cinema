@@ -84,7 +84,6 @@ public class Main {
         user.setEmail("bill@microsoft.com");
         user.setPassword("apple_sucks");
         userService.create(user);
-
         User loggedUser = authenticationService.login("bill@microsoft.com", "apple_sucks");
         System.out.println(loggedUser);
     }

@@ -6,6 +6,7 @@ import com.vztot.cinema.lib.Dao;
 import com.vztot.cinema.model.User;
 import com.vztot.cinema.util.HibernateUtil;
 import java.util.List;
+import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -38,13 +39,13 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
             Root<User> root = query.from(User.class);
             Predicate predicate = criteriaBuilder.equal(root.get("email"), email);
-            return session.createQuery(query.where(predicate)).getSingleResult();
+            return Optional.ofNullable(session.createQuery(query.where(predicate)).uniqueResult());
         } catch (Exception e) {
             throw new DataProcessingException(
                     "Cant find user by email", e);
