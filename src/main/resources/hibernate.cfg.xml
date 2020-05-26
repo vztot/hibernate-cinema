@@ -15,5 +15,7 @@
         <mapping class="com.vztot.cinema.model.CinemaHall"/>
         <mapping class="com.vztot.cinema.model.MovieSession"/>
         <mapping class="com.vztot.cinema.model.User"/>
+        <mapping class="com.vztot.cinema.model.ShoppingCart"/>
+        <mapping class="com.vztot.cinema.model.Ticket"/>
     </session-factory>
 </hibernate-configuration>
