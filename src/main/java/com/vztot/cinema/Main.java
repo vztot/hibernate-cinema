@@ -1,12 +1,16 @@
 package com.vztot.cinema;
 
+import com.vztot.cinema.exception.AuthenticationException;
 import com.vztot.cinema.lib.Injector;
 import com.vztot.cinema.model.CinemaHall;
 import com.vztot.cinema.model.Movie;
 import com.vztot.cinema.model.MovieSession;
+import com.vztot.cinema.model.User;
+import com.vztot.cinema.security.AuthenticationService;
 import com.vztot.cinema.service.CinemaHallService;
 import com.vztot.cinema.service.MovieService;
 import com.vztot.cinema.service.MovieSessionService;
+import com.vztot.cinema.service.UserService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -18,8 +22,12 @@ public class Main {
             = (MovieSessionService) INJECTOR.getInstance(MovieSessionService.class);
     private static CinemaHallService cinemaHallService
             = (CinemaHallService) INJECTOR.getInstance(CinemaHallService.class);
+    private static UserService userService
+            = (UserService) INJECTOR.getInstance(UserService.class);
+    private static AuthenticationService authenticationService
+            = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws AuthenticationException {
         Movie movieSevenSamurai = new Movie();
         movieSevenSamurai.setTitle("Seven Samurai");
         movieSevenSamurai.setDescription(
@@ -66,10 +74,13 @@ public class Main {
 
         LocalDate today = LocalDate.of(2020, 5, 22);
 
-        System.out.println("SESSIONS:");
         movieSessionService.findAvailableSessions(movieSevenSamurai.getId(), today)
                 .forEach(System.out::println);
         movieSessionService.findAvailableSessions(movieRashomon.getId(), today)
                 .forEach(System.out::println);
+
+        authenticationService.register("bill@microsoft.com", "apple_sucks");
+        User loggedUser = authenticationService.login("bill@microsoft.com", "apple_sucks");
+        System.out.println(loggedUser);
     }
 }
