@@ -67,14 +67,14 @@ public class Main {
 
         MovieSession sevenSamuraiSession = new MovieSession();
         sevenSamuraiSession.setSessionTime(
-                LocalDateTime.of(2020, 05, 26, 23, 45));
+                LocalDateTime.of(2020, 5, 26, 23, 45));
         sevenSamuraiSession.setMovie(movieSevenSamurai);
         sevenSamuraiSession.setCinemaHall(smallHall);
         sevenSamuraiSession = movieSessionService.add(sevenSamuraiSession);
 
         MovieSession rashmonSession = new MovieSession();
         rashmonSession.setSessionTime(
-                LocalDateTime.of(2020, 05, 26, 20, 45));
+                LocalDateTime.of(2020, 5, 26, 20, 45));
         rashmonSession.setMovie(movieRashomon);
         rashmonSession.setCinemaHall(bigHall);
         rashmonSession = movieSessionService.add(rashmonSession);
@@ -90,14 +90,11 @@ public class Main {
 
         User loggedUser = authenticationService.login("bill@microsoft.com", "apple_sucks");
         System.out.println(loggedUser);
-
         shoppingCartService.addSession(sevenSamuraiSession, loggedUser);
         shoppingCartService.addSession(rashmonSession, loggedUser);
 
         ShoppingCart shoppingCart = shoppingCartService.getByUser(loggedUser);
-
         orderService.completeOrder(shoppingCart.getTickets(), shoppingCart.getUser());
-
         orderService.getOrderHistory(loggedUser).forEach(System.out::println);
     }
 }
