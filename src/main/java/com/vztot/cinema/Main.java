@@ -5,11 +5,13 @@ import com.vztot.cinema.lib.Injector;
 import com.vztot.cinema.model.CinemaHall;
 import com.vztot.cinema.model.Movie;
 import com.vztot.cinema.model.MovieSession;
+import com.vztot.cinema.model.ShoppingCart;
 import com.vztot.cinema.model.User;
 import com.vztot.cinema.security.AuthenticationService;
 import com.vztot.cinema.service.CinemaHallService;
 import com.vztot.cinema.service.MovieService;
 import com.vztot.cinema.service.MovieSessionService;
+import com.vztot.cinema.service.OrderService;
 import com.vztot.cinema.service.ShoppingCartService;
 import com.vztot.cinema.service.UserService;
 import java.time.LocalDate;
@@ -29,6 +31,8 @@ public class Main {
             = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
     private static ShoppingCartService shoppingCartService
             = (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
+    private static OrderService orderService
+            = (OrderService) INJECTOR.getInstance(OrderService.class);
 
     public static void main(String[] args) throws AuthenticationException {
         Movie movieSevenSamurai = new Movie();
@@ -63,14 +67,14 @@ public class Main {
 
         MovieSession sevenSamuraiSession = new MovieSession();
         sevenSamuraiSession.setSessionTime(
-                LocalDateTime.of(2020, 05, 26, 23, 45));
+                LocalDateTime.of(2020, 5, 26, 23, 45));
         sevenSamuraiSession.setMovie(movieSevenSamurai);
         sevenSamuraiSession.setCinemaHall(smallHall);
         sevenSamuraiSession = movieSessionService.add(sevenSamuraiSession);
 
         MovieSession rashmonSession = new MovieSession();
         rashmonSession.setSessionTime(
-                LocalDateTime.of(2020, 05, 26, 20, 45));
+                LocalDateTime.of(2020, 5, 26, 20, 45));
         rashmonSession.setMovie(movieRashomon);
         rashmonSession.setCinemaHall(bigHall);
         rashmonSession = movieSessionService.add(rashmonSession);
@@ -83,10 +87,14 @@ public class Main {
                 .forEach(System.out::println);
 
         authenticationService.register("bill@microsoft.com", "apple_sucks");
+
         User loggedUser = authenticationService.login("bill@microsoft.com", "apple_sucks");
         System.out.println(loggedUser);
-
         shoppingCartService.addSession(sevenSamuraiSession, loggedUser);
         shoppingCartService.addSession(rashmonSession, loggedUser);
+
+        ShoppingCart shoppingCart = shoppingCartService.getByUser(loggedUser);
+        orderService.completeOrder(shoppingCart.getTickets(), shoppingCart.getUser());
+        orderService.getOrderHistory(loggedUser).forEach(System.out::println);
     }
 }
