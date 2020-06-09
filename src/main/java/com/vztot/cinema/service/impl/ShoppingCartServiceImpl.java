@@ -2,21 +2,25 @@ package com.vztot.cinema.service.impl;
 
 import com.vztot.cinema.dao.ShoppingCartDao;
 import com.vztot.cinema.dao.TicketDao;
-import com.vztot.cinema.lib.Inject;
-import com.vztot.cinema.lib.Service;
 import com.vztot.cinema.model.MovieSession;
 import com.vztot.cinema.model.ShoppingCart;
 import com.vztot.cinema.model.Ticket;
 import com.vztot.cinema.model.User;
 import com.vztot.cinema.service.ShoppingCartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-    @Inject
-    private ShoppingCartDao shoppingCartDao;
 
-    @Inject
+    private ShoppingCartDao shoppingCartDao;
     private TicketDao ticketDao;
+
+    @Autowired
+    public ShoppingCartServiceImpl(ShoppingCartDao shoppingCartDao, TicketDao ticketDao) {
+        this.shoppingCartDao = shoppingCartDao;
+        this.ticketDao = ticketDao;
+    }
 
     @Override
     public void addSession(MovieSession movieSession, User user) {
