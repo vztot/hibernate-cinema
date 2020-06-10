@@ -1,12 +1,5 @@
 package com.vztot.cinema.config;
 
-import com.vztot.cinema.model.CinemaHall;
-import com.vztot.cinema.model.Movie;
-import com.vztot.cinema.model.MovieSession;
-import com.vztot.cinema.model.Order;
-import com.vztot.cinema.model.ShoppingCart;
-import com.vztot.cinema.model.Ticket;
-import com.vztot.cinema.model.User;
 import java.util.Properties;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
@@ -51,8 +44,7 @@ public class AppConfig {
         properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
         properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
         factoryBean.setHibernateProperties(properties);
-        factoryBean.setAnnotatedClasses(CinemaHall.class, Movie.class, MovieSession.class,
-                Order.class, ShoppingCart.class, Ticket.class, User.class);
+        factoryBean.setPackagesToScan("com.vztot.cinema.model");
         return factoryBean;
     }
 }
