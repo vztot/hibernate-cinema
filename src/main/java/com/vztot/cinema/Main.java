@@ -1,7 +1,7 @@
 package com.vztot.cinema;
 
+import com.vztot.cinema.config.AppConfig;
 import com.vztot.cinema.exception.AuthenticationException;
-import com.vztot.cinema.lib.Injector;
 import com.vztot.cinema.model.CinemaHall;
 import com.vztot.cinema.model.Movie;
 import com.vztot.cinema.model.MovieSession;
@@ -13,26 +13,21 @@ import com.vztot.cinema.service.MovieService;
 import com.vztot.cinema.service.MovieSessionService;
 import com.vztot.cinema.service.OrderService;
 import com.vztot.cinema.service.ShoppingCartService;
-import com.vztot.cinema.service.UserService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class Main {
-    private static final Injector INJECTOR = Injector.getInstance("com.vztot.cinema");
-    private static MovieService movieService
-            = (MovieService) INJECTOR.getInstance(MovieService.class);
-    private static MovieSessionService movieSessionService
-            = (MovieSessionService) INJECTOR.getInstance(MovieSessionService.class);
-    private static CinemaHallService cinemaHallService
-            = (CinemaHallService) INJECTOR.getInstance(CinemaHallService.class);
-    private static UserService userService
-            = (UserService) INJECTOR.getInstance(UserService.class);
-    private static AuthenticationService authenticationService
-            = (AuthenticationService) INJECTOR.getInstance(AuthenticationService.class);
-    private static ShoppingCartService shoppingCartService
-            = (ShoppingCartService) INJECTOR.getInstance(ShoppingCartService.class);
-    private static OrderService orderService
-            = (OrderService) INJECTOR.getInstance(OrderService.class);
+    private static final AnnotationConfigApplicationContext ctx
+            = new AnnotationConfigApplicationContext(AppConfig.class);
+
+    private static MovieService movieService = ctx.getBean(MovieService.class);
+    private static CinemaHallService cinemaHallService = ctx.getBean(CinemaHallService.class);
+    private static MovieSessionService movieSessionService = ctx.getBean(MovieSessionService.class);
+    private static AuthenticationService authenticationService =
+            ctx.getBean(AuthenticationService.class);
+    private static ShoppingCartService shoppingCartService = ctx.getBean(ShoppingCartService.class);
+    private static OrderService orderService = ctx.getBean(OrderService.class);
 
     public static void main(String[] args) throws AuthenticationException {
         Movie movieSevenSamurai = new Movie();

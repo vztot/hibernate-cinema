@@ -2,24 +2,33 @@ package com.vztot.cinema.dao.impl;
 
 import com.vztot.cinema.dao.OrderDao;
 import com.vztot.cinema.exception.DataProcessingException;
-import com.vztot.cinema.lib.Dao;
 import com.vztot.cinema.model.Order;
 import com.vztot.cinema.model.User;
-import com.vztot.cinema.util.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
-@Dao
+@Repository
 public class OrderDaoImpl implements OrderDao {
+
+    private final SessionFactory sessionFactory;
+
+    @Autowired
+    public OrderDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
     @Override
     public Order add(Order order) {
         Transaction transaction = null;
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             transaction = session.beginTransaction();
             session.save(order);
             transaction.commit();
@@ -38,7 +47,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public List<Order> getByUser(User user) {
-        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             Query<Order> query = session.createQuery(
                     "SELECT DISTINCT ord FROM Order ord "
                             + "LEFT JOIN FETCH ord.tickets "
