@@ -1,10 +1,10 @@
 package com.vztot.cinema.service.impl;
 
 import com.vztot.cinema.dao.UserDao;
+import com.vztot.cinema.exception.DataProcessingException;
 import com.vztot.cinema.model.User;
 import com.vztot.cinema.service.ShoppingCartService;
 import com.vztot.cinema.service.UserService;
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findByEmail(String email) {
-        return userDao.findByEmail(email);
+    public User getById(Long userId) {
+        return userDao.getById(userId).orElseThrow(
+                () -> new DataProcessingException("Cant get user by id"));
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userDao.findByEmail(email).orElseThrow(
+                () -> new DataProcessingException("Cant get user by email"));
     }
 }

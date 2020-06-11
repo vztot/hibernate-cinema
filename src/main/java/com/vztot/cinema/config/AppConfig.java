@@ -16,6 +16,8 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 @ComponentScan(basePackages = {
         "com.vztot.cinema.dao.impl",
         "com.vztot.cinema.service.impl",
+        "com.vztot.cinema.service.impl",
+        "com.vztot.cinema.model.mapper",
         "com.vztot.cinema.security.impl"
 })
 public class AppConfig {

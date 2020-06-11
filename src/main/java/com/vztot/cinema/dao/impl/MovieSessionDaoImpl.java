@@ -45,6 +45,28 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
+    public List<MovieSession> getAll() {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaQuery<MovieSession> criteriaQuery = session.getCriteriaBuilder()
+                    .createQuery(MovieSession.class);
+            criteriaQuery.from(MovieSession.class);
+            return session.createQuery(criteriaQuery).getResultList();
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get all movie sessions", e);
+        }
+    }
+
+    @Override
+    public MovieSession getById(Long movieSessionId) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(MovieSession.class, movieSessionId);
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get movie session by id : " + movieSessionId,
+                    e);
+        }
+    }
+
+    @Override
     public MovieSession add(MovieSession movieSession) {
         Transaction transaction = null;
         Session session = null;
