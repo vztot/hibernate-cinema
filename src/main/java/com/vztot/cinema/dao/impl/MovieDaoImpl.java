@@ -44,6 +44,15 @@ public class MovieDaoImpl implements MovieDao {
     }
 
     @Override
+    public Movie getById(Long movieId) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Movie.class, movieId);
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get movie by id : " + movieId, e);
+        }
+    }
+
+    @Override
     public List<Movie> getAll() {
         try (Session session = sessionFactory.openSession()) {
             CriteriaQuery<Movie> criteriaQuery = session.getCriteriaBuilder()
