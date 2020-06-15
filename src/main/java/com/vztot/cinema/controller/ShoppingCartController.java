@@ -6,11 +6,12 @@ import com.vztot.cinema.model.mapper.ShoppingCartMapper;
 import com.vztot.cinema.service.MovieSessionService;
 import com.vztot.cinema.service.ShoppingCartService;
 import com.vztot.cinema.service.UserService;
+import javax.validation.Valid;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/shoppingcarts")
@@ -32,16 +33,16 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/addmoviesession")
-    private void addMovieSession(@RequestParam Long userId,
-                                 @RequestBody MovieSessionRequestDto dto) {
+    private void addMovieSession(Authentication auth,
+                                 @RequestBody @Valid MovieSessionRequestDto dto) {
         shoppingCartService.addSession(
                 movieSessionService.getById(dto.getMovieSessionId()),
-                userService.getById(userId));
+                userService.getByEmail(auth.getName()));
     }
 
     @GetMapping
-    private ShoppingCartResponseDto getByUserId(@RequestParam Long userId) {
+    private ShoppingCartResponseDto getByUserId(Authentication auth) {
         return mapper.buildShoppingCartResponseDtoFromShoppingCart(
-                shoppingCartService.getByUser(userService.getById(userId)));
+                shoppingCartService.getByUser(userService.getByEmail(auth.getName())));
     }
 }
