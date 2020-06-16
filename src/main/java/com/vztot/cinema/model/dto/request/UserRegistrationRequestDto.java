@@ -5,7 +5,7 @@ import com.vztot.cinema.validation.constrains.PasswordMatchingConstrain;
 import javax.validation.constraints.NotNull;
 import lombok.Data;
 
-@PasswordMatchingConstrain(password = "password", repeatedPassword = "repeatPassword")
+@PasswordMatchingConstrain
 @Data
 public class UserRegistrationRequestDto {
     @EmailConstraint
