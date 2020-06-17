@@ -6,6 +6,7 @@ import com.vztot.cinema.model.User;
 import java.util.Optional;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import org.hibernate.Session;
@@ -61,8 +62,10 @@ public class UserDaoImpl implements UserDao {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
             CriteriaQuery<User> query = criteriaBuilder.createQuery(User.class);
             Root<User> root = query.from(User.class);
+            root.fetch("roles", JoinType.LEFT);
             Predicate predicate = criteriaBuilder.equal(root.get("email"), email);
-            return Optional.ofNullable(session.createQuery(query.where(predicate)).uniqueResult());
+            return Optional.ofNullable(session.createQuery(query.distinct(true)
+                    .where(predicate)).uniqueResult());
         } catch (Exception e) {
             throw new DataProcessingException("Cant find user by email", e);
         }
