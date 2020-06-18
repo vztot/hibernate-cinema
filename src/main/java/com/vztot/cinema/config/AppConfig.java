@@ -18,7 +18,8 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
         "com.vztot.cinema.service.impl",
         "com.vztot.cinema.service.impl",
         "com.vztot.cinema.model.mapper",
-        "com.vztot.cinema.security.impl"
+        "com.vztot.cinema.security.impl",
+        "com.vztot.cinema.security"
 })
 public class AppConfig {
     private final Environment env;
