@@ -45,6 +45,15 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
+    public Role getById(Long roleId) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.get(Role.class, roleId);
+        } catch (Exception e) {
+            throw new DataProcessingException("Can't get role by id : " + roleId, e);
+        }
+    }
+
+    @Override
     public Role getRoleByName(String roleName) {
         try (Session session = sessionFactory.openSession()) {
             Role.RoleName roleNameObject = Role.RoleName.valueOf(roleName);
@@ -52,12 +61,13 @@ public class RoleDaoImpl implements RoleDao {
             CriteriaQuery<Role> query
                     = criteriaBuilder.createQuery(Role.class);
             Root<Role> root = query.from(Role.class);
-            return session.createQuery(
+            Role role = session.createQuery(
                     query.where(criteriaBuilder.equal(root.get("name"), roleNameObject)))
                     .getSingleResult();
+            return role;
         } catch (Exception e) {
             throw new DataProcessingException(
-                    "Can't get a role with name " + roleName, e);
+                    "There was an error retrieving a role with name " + roleName, e);
         }
     }
 }

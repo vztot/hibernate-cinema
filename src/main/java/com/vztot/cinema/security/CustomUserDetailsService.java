@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         userBuilder.password(user.getPassword());
         userBuilder.roles(user.getRoles()
                 .stream()
-                .map(role -> role.getRoleName().toString())
+                .map(role -> role.getName().name())
                 .toArray(String[]::new));
         return userBuilder.build();
     }

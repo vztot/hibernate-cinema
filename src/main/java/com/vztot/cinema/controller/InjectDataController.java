@@ -29,8 +29,12 @@ public class InjectDataController {
     }
 
     private void injectRoles() {
-        roleService.add(Role.of("USER"));
-        roleService.add(Role.of("ADMIN"));
+        Role adminRole = new Role();
+        Role userRole = new Role();
+        adminRole.setName(Role.RoleName.ADMIN);
+        userRole.setName(Role.RoleName.USER);
+        roleService.add(adminRole);
+        roleService.add(userRole);
     }
 
     private void injectUsers() {
