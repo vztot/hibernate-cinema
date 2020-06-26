@@ -38,7 +38,8 @@ Admin can add new movies, movie sessions and cinema halls.
 
 6. For testing download Postman or analogue.
 
-10. For authorization, you must add a new header, where Authorization is key and Basic email:password is value, where email:password must be encoded to Base64 format.
+7. For authorization, you must add a new header, where Authorization is key and Basic email
+:password is value, where email:password must be encoded to Base64 format.
 
 There are test data that you can use.
 There’s already registered USER and ADMIN:
