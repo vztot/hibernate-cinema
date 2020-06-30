@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RequestMapping("/shoppingcarts")
+@RequestMapping("/shopping-carts")
 @RestController
 public class ShoppingCartController {
 
@@ -32,7 +32,7 @@ public class ShoppingCartController {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @PostMapping("/addmoviesession")
+    @PostMapping("/add-movie-session")
     private void addMovieSession(Authentication auth,
                                  @RequestBody @Valid MovieSessionRequestDto dto) {
         shoppingCartService.addSession(
